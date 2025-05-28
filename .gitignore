@@ -1,0 +1,30 @@
+# === Global ===
+.DS_Store
+Thumbs.db
+*.log
+
+# === Node / Angular ===
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/cache/
+/frontend/.env
+/frontend/.env.*
+
+# === Java / Spring Boot ===
+/backend/target/
+/backend/.classpath
+/backend/.project
+/backend/.settings/
+/backend/.idea/
+/backend/*.iml
+
+# === IntelliJ / VS Code ===
+.idea/
+.vscode/
+*.iml
+
+# === OS generated ===
+*.swp
+*.swo
+*.bak
+*~
