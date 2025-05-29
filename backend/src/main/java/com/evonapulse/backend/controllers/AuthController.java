@@ -11,10 +11,7 @@ import com.evonapulse.backend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -41,5 +38,10 @@ public class AuthController {
     public ResponseEntity<UserAuthResponse> login(@Valid @RequestBody UserAuthRequest req) {
         UserAuthResponse response = userService.authenticate(req.getEmail(), req.getPassword());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Hello world");
     }
 }
