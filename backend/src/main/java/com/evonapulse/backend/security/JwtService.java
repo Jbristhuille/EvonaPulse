@@ -1,4 +1,4 @@
-package com.evonapulse.backend.repositories;
+package com.evonapulse.backend.security;
 
 import com.evonapulse.backend.entities.UserEntity;
 import io.jsonwebtoken.*;
@@ -13,10 +13,10 @@ import java.util.Date;
 public class JwtService {
 
     @Value("${jwt.secret}")
-    private String jwtSecret;
+    public String jwtSecret;
 
     @Value("${jwt.expiration}")
-    private long jwtExpirationMs;
+    public long jwtExpirationMs;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());

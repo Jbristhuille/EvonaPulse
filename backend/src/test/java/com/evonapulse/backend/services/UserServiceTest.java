@@ -4,7 +4,7 @@ import com.evonapulse.backend.dtos.UserAuthResponse;
 import com.evonapulse.backend.entities.UserEntity;
 import com.evonapulse.backend.exceptions.PasswordIncorrectException;
 import com.evonapulse.backend.mappers.UserMapper;
-import com.evonapulse.backend.repositories.JwtService;
+import com.evonapulse.backend.security.JwtService;
 import com.evonapulse.backend.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
