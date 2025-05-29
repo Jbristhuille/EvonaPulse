@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class UserRegisterRequest {
+public class UserAuthRequest {
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be valid")
     public String email;

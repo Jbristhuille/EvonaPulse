@@ -1,19 +1,17 @@
 package com.evonapulse.backend.controllers;
 
+import com.evonapulse.backend.dtos.UserAuthResponse;
 import com.evonapulse.backend.dtos.UserPublicResponse;
-import com.evonapulse.backend.dtos.UserRegisterRequest;
+import com.evonapulse.backend.dtos.UserAuthRequest;
 import com.evonapulse.backend.entities.UserEntity;
+import com.evonapulse.backend.exceptions.PasswordIncorrectException;
 import com.evonapulse.backend.exceptions.RegistrationClosedException;
 import com.evonapulse.backend.mappers.UserMapper;
 import com.evonapulse.backend.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,12 +25,18 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserPublicResponse> register(@Valid @RequestBody UserRegisterRequest user) {
+    public ResponseEntity<UserPublicResponse> register(@Valid @RequestBody UserAuthRequest user) {
         if (!userService.anyUserExist()) {
             UserEntity newUserEntity = userService.create(user.email, user.password);
             return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toUserPublicResponse(newUserEntity));
         } else {
             throw new RegistrationClosedException("Registration closed");
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserAuthResponse> login(@Valid @RequestBody UserAuthRequest req) {
+        UserAuthResponse response = userService.authenticate(req.getEmail(), req.getPassword());
+        return ResponseEntity.ok(response);
     }
 }

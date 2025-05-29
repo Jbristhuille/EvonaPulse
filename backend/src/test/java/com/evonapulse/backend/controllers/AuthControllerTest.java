@@ -1,7 +1,8 @@
 package com.evonapulse.backend.controllers;
 
+import com.evonapulse.backend.dtos.UserAuthResponse;
 import com.evonapulse.backend.dtos.UserPublicResponse;
-import com.evonapulse.backend.dtos.UserRegisterRequest;
+import com.evonapulse.backend.dtos.UserAuthRequest;
 import com.evonapulse.backend.entities.UserEntity;
 import com.evonapulse.backend.exceptions.RegistrationClosedException;
 import com.evonapulse.backend.mappers.UserMapper;
@@ -42,7 +43,7 @@ public class AuthControllerTest {
 
     @Test
     void testRegistrationSuccess() {
-        UserRegisterRequest request = new UserRegisterRequest();
+        UserAuthRequest request = new UserAuthRequest();
         request.setEmail("test@mail.fr");
         request.setPassword("123456789");
 
@@ -70,7 +71,7 @@ public class AuthControllerTest {
 
     @Test
     void testRegisterUserAlreadyExists() {
-        UserRegisterRequest request = new UserRegisterRequest();
+        UserAuthRequest request = new UserAuthRequest();
         request.setEmail("test@mail.fr");
         request.setPassword("123456789");
 
@@ -88,11 +89,11 @@ public class AuthControllerTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        UserRegisterRequest dto = new UserRegisterRequest();
+        UserAuthRequest dto = new UserAuthRequest();
         dto.setEmail("test@mail.fr");
         dto.setPassword("123");
 
-        Set<ConstraintViolation<UserRegisterRequest>> violations = validator.validate(dto);
+        Set<ConstraintViolation<UserAuthRequest>> violations = validator.validate(dto);
 
         assertFalse(violations.isEmpty());
 
@@ -101,5 +102,39 @@ public class AuthControllerTest {
                         v.getMessage().contains("at least 8 characters"));
 
         assertTrue(hasPasswordSizeError);
+    }
+
+    @Test
+    void testLoginSuccess() {
+        UserAuthRequest request = new UserAuthRequest();
+        request.setEmail("user@mail.com");
+        request.setPassword("securepassword");
+
+        UserAuthResponse expectedResponse = new UserAuthResponse();
+        expectedResponse.setId("user-id");
+        expectedResponse.setEmail("user@mail.com");
+        expectedResponse.setToken("jwt-token");
+
+        when(userService.authenticate(request.getEmail(), request.getPassword())).thenReturn(expectedResponse);
+
+        ResponseEntity<UserAuthResponse> response = authController.login(request);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
+
+        verify(userService).authenticate(request.getEmail(), request.getPassword());
+    }
+
+    @Test
+    void testLoginFailure() {
+        UserAuthRequest request = new UserAuthRequest();
+        request.setEmail("invalid@mail.com");
+        request.setPassword("wrongpassword");
+
+        when(userService.authenticate(request.getEmail(), request.getPassword()))
+                .thenThrow(new RuntimeException("Invalid credentials"));
+
+        assertThrows(RuntimeException.class, () -> authController.login(request));
+        verify(userService).authenticate(request.getEmail(), request.getPassword());
     }
 }
