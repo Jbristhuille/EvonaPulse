@@ -43,7 +43,6 @@ public class ProjectService {
     public ProjectEntity create(ProjectCreateRequest request) {
         ProjectEntity project = new ProjectEntity();
         project.setName(request.getName());
-        project.setApiKey(UUID.randomUUID().toString());
         return projectRepository.save(project);
     }
 
