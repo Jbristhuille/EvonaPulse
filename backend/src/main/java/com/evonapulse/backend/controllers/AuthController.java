@@ -39,9 +39,4 @@ public class AuthController {
         UserAuthResponse response = userService.authenticate(req.getEmail(), req.getPassword());
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Hello world");
-    }
 }
