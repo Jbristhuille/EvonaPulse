@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
                 ? HttpStatus.FORBIDDEN
                 : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        ApiErrorBuilder error = new ApiErrorBuilder(status, ex.getMessage(), request.getRequestURI());
+        ApiErrorBuilder error = new ApiErrorBuilder(status, "An unexpected error occurred", request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
 }
