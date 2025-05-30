@@ -4,8 +4,7 @@ import com.evonapulse.backend.dtos.UserAuthResponse;
 import com.evonapulse.backend.dtos.UserPublicResponse;
 import com.evonapulse.backend.dtos.UserAuthRequest;
 import com.evonapulse.backend.entities.UserEntity;
-import com.evonapulse.backend.exceptions.PasswordIncorrectException;
-import com.evonapulse.backend.exceptions.RegistrationClosedException;
+import com.evonapulse.backend.exceptions.ApiException;
 import com.evonapulse.backend.mappers.UserMapper;
 import com.evonapulse.backend.services.UserService;
 import jakarta.validation.Valid;
@@ -30,7 +29,7 @@ public class AuthController {
             UserEntity newUserEntity = userService.create(user.email, user.password);
             return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toUserPublicResponse(newUserEntity));
         } else {
-            throw new RegistrationClosedException("Registration closed");
+            throw new ApiException("Registration is closed", HttpStatus.FORBIDDEN);
         }
     }
 

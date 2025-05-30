@@ -4,7 +4,7 @@ import com.evonapulse.backend.dtos.UserAuthResponse;
 import com.evonapulse.backend.dtos.UserPublicResponse;
 import com.evonapulse.backend.dtos.UserAuthRequest;
 import com.evonapulse.backend.entities.UserEntity;
-import com.evonapulse.backend.exceptions.RegistrationClosedException;
+import com.evonapulse.backend.exceptions.ApiException;
 import com.evonapulse.backend.mappers.UserMapper;
 import com.evonapulse.backend.services.UserService;
 
@@ -77,7 +77,10 @@ public class AuthControllerTest {
 
         when(userService.anyUserExist()).thenReturn(true);
 
-        assertThrows(RegistrationClosedException.class, () -> authController.register(request));
+        ApiException ex = assertThrows(ApiException.class, () -> authController.register(request));
+        assertEquals(HttpStatus.FORBIDDEN, ex.getStatus());
+        assertEquals("Registration is closed", ex.getMessage());
+
 
         verify(userService).anyUserExist();
         verify(userService, never()).create(anyString(), anyString());

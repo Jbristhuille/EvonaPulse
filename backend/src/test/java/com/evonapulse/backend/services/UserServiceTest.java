@@ -2,13 +2,14 @@ package com.evonapulse.backend.services;
 
 import com.evonapulse.backend.dtos.UserAuthResponse;
 import com.evonapulse.backend.entities.UserEntity;
-import com.evonapulse.backend.exceptions.PasswordIncorrectException;
+import com.evonapulse.backend.exceptions.ApiException;
 import com.evonapulse.backend.mappers.UserMapper;
 import com.evonapulse.backend.security.JwtService;
 import com.evonapulse.backend.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -106,8 +107,12 @@ class UserServiceTest {
     void testAuthenticate_UserNotFound() {
         when(userRepository.findByEmail("unknown@mail.com")).thenReturn(Optional.empty());
 
-        assertThrows(PasswordIncorrectException.class, () ->
-                userService.authenticate("unknown@mail.com", "anyPassword"));
+        ApiException ex = assertThrows(ApiException.class, () ->
+                userService.authenticate("unknown@mail.com", "anyPassword")
+        );
+        assertEquals(HttpStatus.UNAUTHORIZED, ex.getStatus());
+        assertEquals("Invalid email", ex.getMessage());
+
     }
 
     @Test
@@ -119,7 +124,11 @@ class UserServiceTest {
         when(userRepository.findByEmail("user@mail.com")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrong", "hashed")).thenReturn(false);
 
-        assertThrows(PasswordIncorrectException.class, () ->
-                userService.authenticate("user@mail.com", "wrong"));
+        ApiException ex = assertThrows(ApiException.class, () ->
+                userService.authenticate("user@mail.com", "wrong")
+        );
+        assertEquals(HttpStatus.UNAUTHORIZED, ex.getStatus());
+        assertEquals("Invalid password", ex.getMessage());
+
     }
 }
