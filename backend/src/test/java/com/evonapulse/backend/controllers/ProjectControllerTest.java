@@ -4,7 +4,7 @@ import com.evonapulse.backend.dtos.ProjectCreateRequest;
 import com.evonapulse.backend.dtos.ProjectPublicResponse;
 import com.evonapulse.backend.dtos.ProjectUpdateRequest;
 import com.evonapulse.backend.entities.ProjectEntity;
-import com.evonapulse.backend.exceptions.ProjectNameAlreadyExistsException;
+import com.evonapulse.backend.exceptions.ApiException;
 import com.evonapulse.backend.mappers.ProjectMapper;
 import com.evonapulse.backend.services.ProjectService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
@@ -75,7 +76,7 @@ public class ProjectControllerTest {
 
         ResponseEntity<ProjectPublicResponse> result = projectController.createProject(req);
 
-        assertEquals(200, result.getStatusCodeValue());
+        assertEquals(201, result.getStatusCodeValue());
         assertEquals(response, result.getBody());
     }
 
@@ -86,7 +87,10 @@ public class ProjectControllerTest {
 
         when(projectService.nameExists(req.getName())).thenReturn(true);
 
-        assertThrows(ProjectNameAlreadyExistsException.class, () -> projectController.createProject(req));
+        ApiException ex = assertThrows(ApiException.class, () -> projectController.createProject(req));
+        assertEquals(HttpStatus.CONFLICT, ex.getStatus());
+        assertEquals("A project with this name already exists", ex.getMessage());
+
     }
 
     @Test
@@ -127,7 +131,10 @@ public class ProjectControllerTest {
         when(projectService.existsById(id)).thenReturn(true);
         when(projectService.nameExistsExcludingId(req.getName(), id)).thenReturn(true);
 
-        assertThrows(ProjectNameAlreadyExistsException.class, () -> projectController.updateProject(id, req));
+        ApiException ex = assertThrows(ApiException.class, () -> projectController.updateProject(id, req));
+        assertEquals(HttpStatus.CONFLICT, ex.getStatus());
+        assertEquals("A project with this name already exists", ex.getMessage());
+
     }
 
     @Test

@@ -1,7 +1,11 @@
 package com.evonapulse.backend.security;
 
+import com.evonapulse.backend.exceptions.ApiErrorBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+
     private final JwtAuthFilter jwtAuthFilter;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
@@ -30,6 +36,28 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setContentType("application/json");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            ApiErrorBuilder error = new ApiErrorBuilder(
+                                    HttpStatus.UNAUTHORIZED,
+                                    "Authentication required",
+                                    request.getRequestURI()
+                            );
+                            objectMapper.writeValue(response.getWriter(), error);
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setContentType("application/json");
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            ApiErrorBuilder error = new ApiErrorBuilder(
+                                    HttpStatus.FORBIDDEN,
+                                    "Access denied",
+                                    request.getRequestURI()
+                            );
+                            objectMapper.writeValue(response.getWriter(), error);
+                        })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

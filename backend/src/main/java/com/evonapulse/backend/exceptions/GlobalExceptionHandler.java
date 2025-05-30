@@ -1,43 +1,27 @@
 package com.evonapulse.backend.exceptions;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProjectNameAlreadyExistsException.class)
-    public ResponseEntity<Object> handleProjectNameAlreadyExists(ProjectNameAlreadyExistsException ex) {
-        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiErrorBuilder> handleApiException(ApiException ex, HttpServletRequest request) {
+        ApiErrorBuilder error = new ApiErrorBuilder(ex.getStatus(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(ex.getStatus()).body(error);
     }
 
-    @ExceptionHandler(RegistrationClosedException.class)
-    public ResponseEntity<Object> handleRegistrationClosed(RegistrationClosedException ex) {
-        return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage());
-    }
-
-    @ExceptionHandler(PasswordIncorrectException.class)
-    public ResponseEntity<Object> handlePasswordIncorrect(PasswordIncorrectException ex) {
-        return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
-    }
-
-    // fallback (optionnel)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(Exception ex) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error: " + ex.getMessage());
-    }
+    public ResponseEntity<ApiErrorBuilder> handleAll(Exception ex, HttpServletRequest request) {
+        HttpStatus status = ex instanceof AccessDeniedException
+                ? HttpStatus.FORBIDDEN
+                : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    private ResponseEntity<Object> buildResponse(HttpStatus status, String message) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", status.value());
-        body.put("error", status.getReasonPhrase());
-        body.put("message", message);
-        return new ResponseEntity<>(body, status);
+        ApiErrorBuilder error = new ApiErrorBuilder(status, "An unexpected error occurred", request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
     }
 }
