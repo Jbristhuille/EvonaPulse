@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MetricRepository extends JpaRepository<MetricEntity, UUID> {
-    boolean existsByNameAndProject_Id(String name, UUID projectId);
+    boolean existsByName(String name);
     List<MetricEntity> findByProject_Id(UUID projectId);
 }

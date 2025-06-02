@@ -29,6 +29,10 @@ public class MetricService {
         this.metricMapper = metricMapper;
     }
 
+    public boolean nameExists(String name) {
+        return metricRepository.existsByName(name);
+    }
+
     public List<MetricEntity> getAllByProjectId(UUID projectId) {
         return metricRepository.findByProject_Id(projectId);
     }

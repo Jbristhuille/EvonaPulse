@@ -49,6 +49,33 @@ class MetricServiceTest {
     }
 
     @Test
+    void testNameExistsInProjectReturnsTrueWhenDuplicate() {
+        String name = "duplicate_name";
+        UUID projectId = UUID.randomUUID();
+
+        when(metricRepository.existsByName(name)).thenReturn(true);
+
+        boolean exists = metricService.nameExists(name);
+
+        assertTrue(exists);
+        verify(metricRepository).existsByName(name);
+    }
+
+    @Test
+    void testNameExistsInProjectReturnsFalseWhenNotExists() {
+        String name = "unique_name";
+        UUID projectId = UUID.randomUUID();
+
+        when(metricRepository.existsByName(name)).thenReturn(false);
+
+        boolean exists = metricService.nameExists(name);
+
+        assertFalse(exists);
+        verify(metricRepository).existsByName(name);
+    }
+
+
+    @Test
     void testGetByIdAndProjectIdFound() {
         UUID metricId = UUID.randomUUID();
         UUID projectId = UUID.randomUUID();

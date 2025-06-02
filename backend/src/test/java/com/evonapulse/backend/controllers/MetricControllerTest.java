@@ -3,6 +3,7 @@ package com.evonapulse.backend.controllers;
 import com.evonapulse.backend.dtos.MetricCreateRequest;
 import com.evonapulse.backend.dtos.MetricPublicResponse;
 import com.evonapulse.backend.entities.MetricEntity;
+import com.evonapulse.backend.entities.MetricType;
 import com.evonapulse.backend.exceptions.ApiException;
 import com.evonapulse.backend.mappers.MetricMapper;
 import com.evonapulse.backend.services.MetricService;
@@ -92,6 +93,24 @@ public class MetricControllerTest {
     }
 
     @Test
+    void testCreateMetricNameConflictInProject() {
+        UUID projectId = UUID.randomUUID();
+
+        MetricCreateRequest req = new MetricCreateRequest();
+        req.setName("existing_metric");
+        req.setLabel("Existing");
+        req.setType(MetricType.valueOf("NUMBER"));
+
+        when(metricService.nameExists(req.getName())).thenReturn(true);
+
+        ApiException ex = assertThrows(ApiException.class, () -> metricController.createMetric(projectId, req));
+
+        assertEquals(HttpStatus.CONFLICT, ex.getStatus());
+        assertEquals("A metric with this name already exists", ex.getMessage());
+    }
+
+
+    @Test
     void testDeleteMetricSuccess() {
         UUID projectId = UUID.randomUUID();
         UUID metricId = UUID.randomUUID();
@@ -101,7 +120,7 @@ public class MetricControllerTest {
         ResponseEntity<Map<String, String>> response = metricController.deleteMetric(projectId, metricId);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Metric deleted !", response.getBody().get("message"));
+        assertEquals("Metric deleted!", response.getBody().get("message"));
     }
 
     @Test
