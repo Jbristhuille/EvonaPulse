@@ -30,10 +30,7 @@ public class MetricService {
     }
 
     public List<MetricEntity> getAllByProjectId(UUID projectId) {
-        return metricRepository.findAll()
-                .stream()
-                .filter(metric -> metric.getProject().getId().equals(projectId))
-                .toList();
+        return metricRepository.findByProject_Id(projectId);
     }
 
     public Optional<MetricEntity> getByIdAndProjectId(UUID metricId, UUID projectId) {

@@ -42,7 +42,7 @@ class MetricServiceTest {
         MetricEntity m2 = new MetricEntity();
         m2.setProject(project);
 
-        when(metricRepository.findAll()).thenReturn(List.of(m1, m2));
+        when(metricRepository.findByProject_Id(projectId)).thenReturn(List.of(m1, m2));
 
         List<MetricEntity> result = metricService.getAllByProjectId(projectId);
         assertEquals(2, result.size());
