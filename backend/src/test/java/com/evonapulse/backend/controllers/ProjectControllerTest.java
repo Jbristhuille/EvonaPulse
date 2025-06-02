@@ -15,10 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,19 +35,29 @@ public class ProjectControllerTest {
     @Test
     void testGetAllProjectsReturnsList() {
         when(projectService.getAll()).thenReturn(Collections.emptyList());
-        List<ProjectEntity> result = projectController.getAllProjects();
+        List<ProjectPublicResponse> result = projectController.getAllProjects();
         assertNotNull(result);
     }
 
     @Test
     void testGetProjectByIdFound() {
         UUID id = UUID.randomUUID();
-        ProjectEntity entity = new ProjectEntity();
-        when(projectService.getById(id)).thenReturn(Optional.of(entity));
 
-        ResponseEntity<ProjectEntity> response = projectController.getProjectById(id);
+        ProjectEntity entity = new ProjectEntity();
+        entity.setId(id);
+        entity.setName("Test project");
+
+        ProjectPublicResponse expectedResponse = new ProjectPublicResponse();
+        expectedResponse.setId(String.valueOf(id));
+        expectedResponse.setName("Test project");
+
+        when(projectService.getById(id)).thenReturn(Optional.of(entity));
+        when(projectMapper.toProjectPublicResponse(entity)).thenReturn(expectedResponse);
+
+        ResponseEntity<ProjectPublicResponse> response = projectController.getProjectById(id);
+
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(entity, response.getBody());
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
@@ -58,7 +65,7 @@ public class ProjectControllerTest {
         UUID id = UUID.randomUUID();
         when(projectService.getById(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<ProjectEntity> response = projectController.getProjectById(id);
+        ResponseEntity<ProjectPublicResponse> response = projectController.getProjectById(id);
         assertEquals(404, response.getStatusCodeValue());
     }
 
@@ -99,15 +106,23 @@ public class ProjectControllerTest {
         ProjectUpdateRequest req = new ProjectUpdateRequest();
         req.setName("Updated");
 
-        ProjectEntity updated = new ProjectEntity();
+        ProjectEntity updatedEntity = new ProjectEntity();
+        updatedEntity.setId(id);
+        updatedEntity.setName("Updated");
+
+        ProjectPublicResponse expectedResponse = new ProjectPublicResponse();
+        expectedResponse.setId(String.valueOf(id));
+        expectedResponse.setName("Updated");
 
         when(projectService.existsById(id)).thenReturn(true);
         when(projectService.nameExistsExcludingId(req.getName(), id)).thenReturn(false);
-        when(projectService.update(id, req)).thenReturn(updated);
+        when(projectService.update(id, req)).thenReturn(updatedEntity);
+        when(projectMapper.toProjectPublicResponse(updatedEntity)).thenReturn(expectedResponse);
 
-        ResponseEntity<?> response = projectController.updateProject(id, req);
+        ResponseEntity<ProjectPublicResponse> response = projectController.updateProject(id, req);
+
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(updated, response.getBody());
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
@@ -142,8 +157,8 @@ public class ProjectControllerTest {
         UUID id = UUID.randomUUID();
         when(projectService.delete(id)).thenReturn(true);
 
-        ResponseEntity<Void> response = projectController.deleteProject(id);
-        assertEquals(204, response.getStatusCodeValue());
+        ResponseEntity<Map<String, String>> response = projectController.deleteProject(id);
+        assertEquals(200, response.getStatusCodeValue());
     }
 
     @Test
@@ -151,7 +166,7 @@ public class ProjectControllerTest {
         UUID id = UUID.randomUUID();
         when(projectService.delete(id)).thenReturn(false);
 
-        ResponseEntity<Void> response = projectController.deleteProject(id);
+        ResponseEntity<Map<String, String>> response = projectController.deleteProject(id);
         assertEquals(404, response.getStatusCodeValue());
     }
 }
