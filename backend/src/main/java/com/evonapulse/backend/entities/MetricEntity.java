@@ -39,7 +39,5 @@ public class MetricEntity {
     private LocalDateTime updatedAt;
 
     public MetricEntity() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 }
