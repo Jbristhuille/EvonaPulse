@@ -3,13 +3,15 @@ package com.evonapulse.backend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Data
 public class MetricEntity {
 
     @Id
@@ -20,8 +22,8 @@ public class MetricEntity {
     private String label;
 
     @NotBlank
-    @Pattern(regexp = "^[a-z0-9\\-_]+$", message = "The name must be lowercase, without accents, and may only contain hyphens or underscores.")
-    private String name; // Nom technique (ex: "avg_response_time")
+    @Pattern(regexp = "^[a-z0-9_-]+$", message = "The name must be lowercase, without accents, and may only contain hyphens or underscores.")
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private MetricType type;
@@ -31,8 +33,13 @@ public class MetricEntity {
     private ProjectEntity project;
 
     @CreationTimestamp
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
+
+    public MetricEntity() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }

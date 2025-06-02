@@ -3,9 +3,11 @@ package com.evonapulse.backend.services;
 import com.evonapulse.backend.dtos.MetricCreateRequest;
 import com.evonapulse.backend.entities.MetricEntity;
 import com.evonapulse.backend.entities.ProjectEntity;
+import com.evonapulse.backend.exceptions.ApiException;
 import com.evonapulse.backend.mappers.MetricMapper;
 import com.evonapulse.backend.repositories.MetricRepository;
 import com.evonapulse.backend.repositories.ProjectRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,25 +29,33 @@ public class MetricService {
         this.metricMapper = metricMapper;
     }
 
-    public List<MetricEntity> getAll() {
-        return metricRepository.findAll();
+    public List<MetricEntity> getAllByProjectId(UUID projectId) {
+        return metricRepository.findAll()
+                .stream()
+                .filter(metric -> metric.getProject().getId().equals(projectId))
+                .toList();
     }
 
-    public Optional<MetricEntity> getById(UUID id) {
-        return metricRepository.findById(id);
+    public Optional<MetricEntity> getByIdAndProjectId(UUID metricId, UUID projectId) {
+        return metricRepository.findById(metricId)
+                .filter(metric -> metric.getProject().getId().equals(projectId));
     }
 
-    public MetricEntity create(MetricCreateRequest dto) {
-        ProjectEntity project = projectRepository.findById(dto.getProjectId())
-                .orElseThrow();
+    public MetricEntity create(UUID projectId, MetricCreateRequest req) {
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ApiException("Project not found", HttpStatus.NOT_FOUND));
 
-        MetricEntity metric = metricMapper.fromCreateDto(dto, project);
+        MetricEntity metric = metricMapper.fromCreateDto(req, project);
         return metricRepository.save(metric);
     }
 
-    public boolean delete(UUID id) {
-        if (metricRepository.existsById(id)) {
-            metricRepository.deleteById(id);
+
+    public boolean deleteByIdAndProjectId(UUID metricId, UUID projectId) {
+        Optional<MetricEntity> metric = metricRepository.findById(metricId)
+                .filter(m -> m.getProject().getId().equals(projectId));
+
+        if (metric.isPresent()) {
+            metricRepository.deleteById(metricId);
             return true;
         }
         return false;
