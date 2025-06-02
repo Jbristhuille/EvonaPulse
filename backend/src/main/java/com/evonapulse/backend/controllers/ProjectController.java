@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -29,13 +31,17 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<ProjectEntity> getAllProjects() {
-        return projectService.getAll();
+    public List<ProjectPublicResponse> getAllProjects() {
+        return projectService.getAll()
+                .stream()
+                .map(projectMapper::toProjectPublicResponse)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectEntity> getProjectById(@PathVariable UUID id) {
+    public ResponseEntity<ProjectPublicResponse> getProjectById(@PathVariable UUID id) {
         return projectService.getById(id)
+                .map(projectMapper::toProjectPublicResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -46,15 +52,15 @@ public class ProjectController {
             throw new ApiException("A project with this name already exists", HttpStatus.CONFLICT);
         }
 
+        ProjectEntity created = projectService.create(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(projectMapper.toProjectPublicResponse(projectService.create(request)));
-
+                .body(projectMapper.toProjectPublicResponse(created));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProject(@PathVariable UUID id,
-                                           @Valid @RequestBody ProjectUpdateRequest request) {
+    public ResponseEntity<ProjectPublicResponse> updateProject(@PathVariable UUID id,
+                                                               @Valid @RequestBody ProjectUpdateRequest request) {
         if (!projectService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -64,13 +70,12 @@ public class ProjectController {
         }
 
         ProjectEntity updated = projectService.update(id, request);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(projectMapper.toProjectPublicResponse(updated));
     }
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProject(@PathVariable UUID id) {
+    public ResponseEntity<Map<String, String>> deleteProject(@PathVariable UUID id) {
         boolean deleted = projectService.delete(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return deleted ? ResponseEntity.ok(Map.of("message", "Project deleted !")) : ResponseEntity.notFound().build();
     }
 }
