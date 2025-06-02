@@ -1,7 +1,6 @@
 package com.evonapulse.backend.dtos;
 
 import com.evonapulse.backend.entities.MetricType;
-import com.evonapulse.backend.entities.ProjectEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;

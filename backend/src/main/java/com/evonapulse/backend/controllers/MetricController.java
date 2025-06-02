@@ -61,6 +61,6 @@ public class MetricController {
         if (!deleted) {
             throw new ApiException("Metric not found", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(Map.of("message", "Metric deleted !"));
+        return ResponseEntity.ok(Map.of("message", "Metric deleted!"));
     }
 }
