@@ -4,6 +4,7 @@ import com.evonapulse.backend.entities.MetricType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -14,4 +15,5 @@ public class MetricPublicResponse {
     private MetricType type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    public List<LogPublicResponse> logs;
 }
