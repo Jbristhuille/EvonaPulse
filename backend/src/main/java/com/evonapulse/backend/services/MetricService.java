@@ -29,9 +29,11 @@ public class MetricService {
         this.metricMapper = metricMapper;
     }
 
-    public boolean nameExists(String name) {
-        return metricRepository.existsByName(name);
+    public boolean nameExistsInProject(String name, UUID projectId) {
+        return metricRepository.existsByNameAndProjectId(name, projectId);
     }
+
+// Removed the existByNameAndProjectId method as its functionality is already covered by nameExistsInProject.
 
     public List<MetricEntity> getAllByProjectId(UUID projectId) {
         return metricRepository.findByProject_Id(projectId);
@@ -39,6 +41,11 @@ public class MetricService {
 
     public Optional<MetricEntity> getByIdAndProjectId(UUID metricId, UUID projectId) {
         return metricRepository.findById(metricId)
+                .filter(metric -> metric.getProject().getId().equals(projectId));
+    }
+
+    public Optional<MetricEntity> getByNameAndProjectId(String name, UUID projectId) {
+        return metricRepository.getByNameAndProjectId(name, projectId)
                 .filter(metric -> metric.getProject().getId().equals(projectId));
     }
 

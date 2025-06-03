@@ -8,12 +8,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
 @Table(
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
+    uniqueConstraints = @UniqueConstraint(columnNames = {"name", "project_id"})
 )
 public class MetricEntity {
 
@@ -40,6 +42,9 @@ public class MetricEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "metric", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LogEntity> logs = new ArrayList<>();
 
     public MetricEntity() {
     }

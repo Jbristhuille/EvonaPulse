@@ -101,7 +101,7 @@ public class MetricControllerTest {
         req.setLabel("Existing");
         req.setType(MetricType.valueOf("NUMBER"));
 
-        when(metricService.nameExists(req.getName())).thenReturn(true);
+        when(metricService.nameExistsInProject(req.getName(), projectId)).thenReturn(true);
 
         ApiException ex = assertThrows(ApiException.class, () -> metricController.createMetric(projectId, req));
 

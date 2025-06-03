@@ -53,12 +53,12 @@ class MetricServiceTest {
         String name = "duplicate_name";
         UUID projectId = UUID.randomUUID();
 
-        when(metricRepository.existsByName(name)).thenReturn(true);
+        when(metricRepository.existsByNameAndProjectId(name, projectId)).thenReturn(true);
 
-        boolean exists = metricService.nameExists(name);
+        boolean exists = metricService.nameExistsInProject(name, projectId);
 
         assertTrue(exists);
-        verify(metricRepository).existsByName(name);
+        verify(metricRepository).existsByNameAndProjectId(name, projectId);
     }
 
     @Test
@@ -68,10 +68,10 @@ class MetricServiceTest {
 
         when(metricRepository.existsByName(name)).thenReturn(false);
 
-        boolean exists = metricService.nameExists(name);
+        boolean exists = metricService.nameExistsInProject(name, projectId);
 
         assertFalse(exists);
-        verify(metricRepository).existsByName(name);
+        verify(metricRepository).existsByNameAndProjectId(name, projectId);
     }
 
 
