@@ -38,7 +38,7 @@ SERVER_PORT=5000
 
 ### Frontend
 
-Install dependancies and start project
+Install dependencies and start project
 
 ```bash
 cd client
