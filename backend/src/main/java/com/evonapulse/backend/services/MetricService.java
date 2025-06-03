@@ -33,9 +33,7 @@ public class MetricService {
         return metricRepository.existsByNameAndProjectId(name, projectId);
     }
 
-    public boolean existByNameAndProjectId(String name, UUID projectId) {
-        return metricRepository.existsByNameAndProjectId(name, projectId);
-    }
+// Removed the existByNameAndProjectId method as its functionality is already covered by nameExistsInProject.
 
     public List<MetricEntity> getAllByProjectId(UUID projectId) {
         return metricRepository.findByProject_Id(projectId);
