@@ -32,6 +32,10 @@ public class ProjectService {
         return projectRepository.existsById(id);
     }
 
+    public Optional<ProjectEntity> getByApikey(String apiKey) {
+        return projectRepository.getByApiKey(apiKey);
+    }
+
     public boolean nameExists(String name) {
         return projectRepository.existsByName(name);
     }

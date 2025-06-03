@@ -1,11 +1,14 @@
 package com.evonapulse.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Data
 public class LogEntity {
     @Id
     @GeneratedValue
@@ -16,6 +19,7 @@ public class LogEntity {
     private MetricType type;
 
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime timestamp;
 
     @Column(nullable = false)

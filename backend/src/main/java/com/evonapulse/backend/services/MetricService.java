@@ -33,12 +33,21 @@ public class MetricService {
         return metricRepository.existsByName(name);
     }
 
+    public boolean existByNameAndProjectId(String name, UUID projectId) {
+        return metricRepository.existsByNameAndProjectId(name, projectId);
+    }
+
     public List<MetricEntity> getAllByProjectId(UUID projectId) {
         return metricRepository.findByProject_Id(projectId);
     }
 
     public Optional<MetricEntity> getByIdAndProjectId(UUID metricId, UUID projectId) {
         return metricRepository.findById(metricId)
+                .filter(metric -> metric.getProject().getId().equals(projectId));
+    }
+
+    public Optional<MetricEntity> getByNameAndProjectId(String name, UUID projectId) {
+        return metricRepository.getByNameAndProjectId(name, projectId)
                 .filter(metric -> metric.getProject().getId().equals(projectId));
     }
 

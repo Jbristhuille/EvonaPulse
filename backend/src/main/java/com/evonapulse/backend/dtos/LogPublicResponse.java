@@ -9,7 +9,6 @@ import java.util.UUID;
 @Data
 public class LogPublicResponse {
     public UUID id;
-    public MetricType type;
     public LocalDateTime timestamp;
     public String value;
 }
