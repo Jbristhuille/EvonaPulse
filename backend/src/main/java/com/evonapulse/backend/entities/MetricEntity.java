@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
+    uniqueConstraints = @UniqueConstraint(columnNames = {"name", "project_id"})
 )
 public class MetricEntity {
 

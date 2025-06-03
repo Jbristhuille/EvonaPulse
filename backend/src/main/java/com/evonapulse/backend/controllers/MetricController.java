@@ -48,7 +48,7 @@ public class MetricController {
     @PostMapping
     public ResponseEntity<MetricPublicResponse> createMetric(@PathVariable UUID projectId,
                                                              @Valid @RequestBody MetricCreateRequest request) {
-        if (metricService.nameExists(request.getName())) {
+        if (metricService.nameExistsInProject(request.getName(), projectId)) {
             throw new ApiException("A metric with this name already exists", HttpStatus.CONFLICT);
         }
 

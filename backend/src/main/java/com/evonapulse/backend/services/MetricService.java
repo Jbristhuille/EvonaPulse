@@ -29,8 +29,8 @@ public class MetricService {
         this.metricMapper = metricMapper;
     }
 
-    public boolean nameExists(String name) {
-        return metricRepository.existsByName(name);
+    public boolean nameExistsInProject(String name, UUID projectId) {
+        return metricRepository.existsByNameAndProjectId(name, projectId);
     }
 
     public boolean existByNameAndProjectId(String name, UUID projectId) {
