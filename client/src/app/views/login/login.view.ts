@@ -2,11 +2,12 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-04 14:17:26                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-04 18:38:21                              *
+ * @LastEditDate          : 2025-06-04 19:01:08                              *
  ****************************************************************************/
 
 /* SUMMARY
   * Imports
+  * Services
   * submitForm - Send credentials to the server for login
 */
 
@@ -21,6 +22,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../../environments/environment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+/***/
+
+/* Services */
+import { AuthService } from '../../services/auth/auth.service';
 /***/
 
 @Component({
@@ -49,7 +54,8 @@ export class LoginView {
   });
 
   constructor(private message: NzMessageService,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
   }
 
   /**
@@ -64,7 +70,7 @@ export class LoginView {
         .subscribe({
           next: (response) => {
             this.message.success('Login successful!');
-            sessionStorage.setItem('token', response.token);
+            this.authService.saveToken(response.token);
             this.router.navigate(['/dashboard']);
           },
           error: (error) => {
