@@ -1,0 +1,22 @@
+/*****************************************************************************
+ * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
+ * @CreatedDate           : 2025-06-04 14:34:31                              *
+ * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
+ * @LastEditDate          : 2025-06-04 14:36:04                              *
+ ****************************************************************************/
+
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .login-card {
+    min-width: 400px;
+  }
+
+  .signup-link {
+    margin-top: 8px;
+  }
+}
