@@ -1,0 +1,38 @@
+<!--
+* @Author                : Jbristhuille<jbristhuille@gmail.com>
+* @CreatedDate           : 2025-06-04 14:21:00
+* @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
+* @LastEditDate          : 2025-06-04 14:35:40
+-->
+
+<div class="login-container">
+  <nz-card class="login-card">
+    <h1>Login to EvonaPulse</h1>
+
+    <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your email!">
+          <nz-input-group nzPrefixIcon="mail">
+            <input type="email" nz-input formControlName="email" placeholder="Email" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="form-actions">
+        <button nz-button nzType="primary" nzBlock>Login</button>
+
+        <div class="signup-link">
+          Don't have an account? <a routerLink="/signup">Sign up now</a>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+</div>
