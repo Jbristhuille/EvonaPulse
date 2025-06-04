@@ -34,6 +34,7 @@ If you're running the backend directly in IntelliJ, make sure to set the followi
 JWT_EXPIRATION=28800000
 JWT_SECRET=mySecret
 SERVER_PORT=5000
+SPRING_PROFILES_ACTIVE=dev
 ```
 
 ### Frontend
