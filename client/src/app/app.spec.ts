@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-03 17:26:48                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-03 17:27:13                              *
+ * @LastEditDate          : 2025-06-04 15:19:40                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -20,4 +20,11 @@ describe('AppComponent', () => {
       imports: [AppComponent],
     }).compileComponents();
   });
+
+  it('should create the component', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+  });
 });
+

@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-04 14:17:26                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-04 15:08:16                              *
+ * @LastEditDate          : 2025-06-04 18:38:21                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
     NzInputModule,
     NzButtonModule,
     ReactiveFormsModule,
-    NzCardModule,
+    NzCardModule
   ],
   templateUrl: './login.view.html',
   styleUrl: './login.view.scss',
