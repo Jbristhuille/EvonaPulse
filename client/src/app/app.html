@@ -6,10 +6,10 @@
 -->
 
 <div id="app">
-  <ng-content *ngIf="isMenuVisible">
-    <component-sidebar class="sidebar"/>
+  <ng-container *ngIf="isMenuVisible">
+    <component-sidebar class="sidebar"></component-sidebar>
     <component-header class="header"></component-header>
-  </ng-content>
+  </ng-container>
 
   <div class="content">
     <router-outlet></router-outlet>
