@@ -7,7 +7,7 @@
 
 <div class="sidebar-component">
   <ul nz-menu nzMode="inline" class="sidebar-menu">
-    <li nz-submenu nzTitle="Projects" nzIcon="project" nzOpen nzOpen>
+    <li nz-submenu nzTitle="Projects" nzIcon="project" nzOpen>
       <ul>
         <ng-container *ngIf="projects; else loading">
           <li *ngFor="let project of projects" nz-menu-item>{{project.name}}</li>
