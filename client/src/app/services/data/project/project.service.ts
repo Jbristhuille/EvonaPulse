@@ -57,7 +57,7 @@ export class ProjectService {
   public getById(id: string): Observable<IProject> {
     const token = this.authService.getToken();
 
-    return this.httpClient.get<IProject>(`${env.API_URL}/api/projects${id}`, {
+    return this.httpClient.get<IProject>(`${env.API_URL}/api/projects/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
