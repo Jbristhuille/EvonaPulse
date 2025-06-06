@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:45:07                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-06 15:46:20                              *
+ * @LastEditDate          : 2025-06-06 17:16:47                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -106,7 +106,7 @@ describe('ProjectService', () => {
       }
     });
 
-    const req = httpMock.expectOne(`${env.API_URL}/api/projectsbad-id`);
+    const req = httpMock.expectOne(`${env.API_URL}/api/projects/bad-id`);
     req.flush('Not found', { status: 404, statusText: 'Not Found' });
   });
 });
