@@ -1,0 +1,29 @@
+/*****************************************************************************
+ * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
+ * @CreatedDate           : 2025-06-06 16:57:53                              *
+ * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
+ * @LastEditDate          : 2025-06-06 17:06:11                              *
+ ****************************************************************************/
+
+.header-component {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 0;
+
+    h2 {
+      margin: 0;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+    }
+  }
+}

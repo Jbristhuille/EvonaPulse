@@ -19,12 +19,18 @@ import { filter } from 'rxjs';
 
 /* Components */
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header/header.component';
 /***/
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, SidebarComponent],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    SidebarComponent,
+    HeaderComponent
+  ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
