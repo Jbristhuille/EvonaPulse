@@ -51,7 +51,7 @@ export class ProjectService {
   /***/
 
   /**
-   * getById - Get project by idd
+   * getById - Get project by id
    * @returns - project
    */
   public getById(id: string): Observable<IProject> {
