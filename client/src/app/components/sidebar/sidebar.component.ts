@@ -27,7 +27,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   selector: 'component-sidebar',
   imports: [NzMenuModule, NzSpinModule, CommonModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
   public projects: IProject[] | undefined;
