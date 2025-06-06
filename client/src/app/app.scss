@@ -2,6 +2,23 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-03 17:24:49                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-03 17:25:05                              *
+ * @LastEditDate          : 2025-06-06 16:06:58                              *
  ****************************************************************************/
 
+#app {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  grid-template-rows: 34px 1fr;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+
+  .sidebar {
+    grid-row: 2;
+  }
+
+  .content {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}

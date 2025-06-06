@@ -2,8 +2,13 @@
 * @Author                : Jbristhuille<jbristhuille@gmail.com>
 * @CreatedDate           : 2025-06-03 17:24:00
 * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
-* @LastEditDate          : 2025-06-04 19:31:36
+* @LastEditDate          : 2025-06-06 16:06:48
 -->
 
-<component-sidebar *ngIf="isMenuVisible"/>
-<router-outlet></router-outlet>
+<div id="app">
+  <component-sidebar class="sidebar" *ngIf="isMenuVisible"/>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

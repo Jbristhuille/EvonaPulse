@@ -1,0 +1,22 @@
+/*****************************************************************************
+ * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
+ * @CreatedDate           : 2025-06-06 15:52:26                              *
+ * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
+ * @LastEditDate          : 2025-06-06 16:16:33                              *
+ ****************************************************************************/
+
+.sidebar-component {
+  height: 100%;
+
+  .sidebar-menu {
+    height: 100%;
+    position: relative;
+
+    .loader {
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
