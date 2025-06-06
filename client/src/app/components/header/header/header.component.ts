@@ -12,7 +12,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
   selector: 'component-header',
   imports: [NzPageHeaderModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
 
