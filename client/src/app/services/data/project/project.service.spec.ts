@@ -91,7 +91,7 @@ describe('ProjectService', () => {
       expect(project).toEqual(mockProject);
     });
 
-    const req = httpMock.expectOne(`${env.API_URL}/api/projects123`);
+    const req = httpMock.expectOne(`${env.API_URL}/api/projects/123`);
     expect(req.request.method).toBe('GET');
     expect(req.request.headers.get('Authorization')).toBe('Bearer mocked-token');
 
