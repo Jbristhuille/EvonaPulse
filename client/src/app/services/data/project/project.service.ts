@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:35:50                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-06 15:42:56                              *
+ * @LastEditDate          : 2025-06-10 17:05:25                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -10,6 +10,7 @@
   * Services
   * Interfaces
   * getAll - Get all projects
+  * getById - Get project by id
 */
 
 /* Imports */

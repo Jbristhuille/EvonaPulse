@@ -2,7 +2,7 @@
 * @Author                : Jbristhuille<jbristhuille@gmail.com>
 * @CreatedDate           : 2025-06-06 15:49:00
 * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
-* @LastEditDate          : 2025-06-06 16:16:25
+* @LastEditDate          : 2025-06-10 14:24:09
 -->
 
 <div class="sidebar-component">
@@ -12,6 +12,13 @@
         <ng-container *ngIf="projects; else loading">
           <li *ngFor="let project of projects" nz-menu-item>{{project.name}}</li>
         </ng-container>
+
+        <li nz-menu-item>
+          <button nz-button nz-Type="primary" (click)="openProjectModal()">
+            <nz-icon nzType="plus" nzTheme="outline"/>
+            New project
+          </button>
+        </li>
       </ul>
     </li>
 
