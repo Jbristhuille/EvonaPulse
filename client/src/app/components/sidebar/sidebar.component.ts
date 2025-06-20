@@ -2,13 +2,15 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:49:03                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-20 14:43:03                              *
+ * @LastEditDate          : 2025-06-20 14:49:54                              *
  ****************************************************************************/
 
 /* SUMMARY
   * Imports
   * Services
   * Components
+  * isActive - Check if the project is active based on the current URL
+  * handleProjectCreate - Handle project creation
   * openProjectModal - Open project creation modal
 */
 
@@ -33,7 +35,7 @@ import { AuthService } from '../../services/auth/auth.service';
 
 /* Components */
 import { CreateProjectComponent } from '../modals/create-project/create-project.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 /***/
 
 @Component({
@@ -59,7 +61,8 @@ export class SidebarComponent implements OnInit {
   constructor(private projectService: ProjectService,
               private message: NzMessageService,
               private authService: AuthService,
-              private modalService: NzModalService) {
+              private modalService: NzModalService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -75,6 +78,15 @@ export class SidebarComponent implements OnInit {
       });
     }
   }
+
+  /**
+  * isActive - Check if the project is active based on the current URL
+  * @param projectId - The ID of the project to check
+  */
+  public isActive(projectId: string): boolean {
+    return this.router.url.includes(`/projects/${projectId}`);
+  }
+  /***/
 
   /**
   * handleProjectCreate - Handle project creation
