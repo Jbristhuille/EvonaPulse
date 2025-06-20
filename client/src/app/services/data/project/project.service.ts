@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:35:50                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-10 17:05:25                              *
+ * @LastEditDate          : 2025-06-20 14:26:27                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -11,6 +11,7 @@
   * Interfaces
   * getAll - Get all projects
   * getById - Get project by id
+  * create - Create a new project
 */
 
 /* Imports */
@@ -59,6 +60,22 @@ export class ProjectService {
     const token = this.authService.getToken();
 
     return this.httpClient.get<IProject>(`${env.API_URL}/api/projects/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+  /***/
+
+  /**
+  * create - Create a new project
+  * @param name - Name of the project
+  * @return - Request observable
+  */
+  public create(name: string): Observable<IProject> {
+    const token = this.authService.getToken();
+
+    return this.httpClient.post<IProject>(`${env.API_URL}/api/projects`, {name}, {
       headers: {
         Authorization: `Bearer ${token}`
       }

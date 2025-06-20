@@ -2,13 +2,14 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:49:03                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-10 17:02:18                              *
+ * @LastEditDate          : 2025-06-20 14:33:23                              *
  ****************************************************************************/
 
 /* SUMMARY
   * Imports
   * Services
   * Components
+  * openProjectModal - Open project creation modal
 */
 
 /* Imports */
@@ -74,6 +75,42 @@ export class SidebarComponent implements OnInit {
   }
 
   /**
+  * handleProjectCreate - Handle project creation
+  */
+  private handleProjectCreate(): boolean {
+    if (this.modal) {
+      this.modal.updateConfig({nzOkLoading: true});
+
+      if (this.modal.getContentComponent().name.trim() === "") {
+        this.modal.getContentComponent().onError = "error";
+        this.message.error('Project name cannot be empty.');
+        this.modal.updateConfig({nzOkLoading: false});
+      } else {
+        this.projectService.create(this.modal.getContentComponent().name.trim())
+          .subscribe({
+            next: (project: IProject) => {
+              this.projects?.push(project);
+              this.message.success('Project created successfully!');
+              this.modal?.close();
+            },
+            error: (error) => {
+              console.error(error);
+              this.message.error(error.error?.message || 'Failed to create project. Please try again later.');
+              this.modal?.updateConfig({nzOkLoading: false});
+            },
+            complete: () => {
+              console.log('Project creation request completed.');
+              this.modal?.updateConfig({nzOkLoading: false});
+            }
+          });
+        }
+    }
+
+    return false; // Prevent default behavior to allow custom save logic
+  }
+  /***/
+
+  /**
   * openProjectModal - Open project creation modal
   */
   public openProjectModal(): void {
@@ -81,11 +118,7 @@ export class SidebarComponent implements OnInit {
       nzTitle: 'Create New Project',
       nzContent: CreateProjectComponent,
       nzOkText: 'Save',
-      nzOnOk: () => {
-        this.modal?.updateConfig({nzOkLoading: true}); // Start loading state
-        console.log(this.modal?.getContentComponent());
-        return false; // Prevent default behavior to allow custom save logic
-      }
+      nzOnOk: this.handleProjectCreate.bind(this)
     });
   }
   /***/

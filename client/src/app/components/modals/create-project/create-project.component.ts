@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-10 16:50:06                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-10 17:04:31                              *
+ * @LastEditDate          : 2025-06-20 14:19:33                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -25,5 +25,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   styleUrl: './create-project.component.scss'
 })
 export class CreateProjectComponent {
-  public name: string = "Hello world";
+  public name: string = "";
+  public onError: "error" | "warning" | "" = "";
 }
