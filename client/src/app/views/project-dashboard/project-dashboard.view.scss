@@ -1,0 +1,18 @@
+/*****************************************************************************
+ * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
+ * @CreatedDate           : 2025-06-20 14:43:52                              *
+ * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
+ * @LastEditDate          : 2025-06-20 14:44:52                              *
+ ****************************************************************************/
+
+.project-dashboard {
+  position: relative;
+  height: 100%;
+
+  .loading-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

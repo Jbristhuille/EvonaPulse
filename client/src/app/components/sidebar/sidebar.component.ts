@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:49:03                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-20 14:33:23                              *
+ * @LastEditDate          : 2025-06-20 14:43:03                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -33,6 +33,7 @@ import { AuthService } from '../../services/auth/auth.service';
 
 /* Components */
 import { CreateProjectComponent } from '../modals/create-project/create-project.component';
+import { RouterModule } from '@angular/router';
 /***/
 
 @Component({
@@ -45,7 +46,8 @@ import { CreateProjectComponent } from '../modals/create-project/create-project.
     NzIconModule,
     NzModalModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    RouterModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
