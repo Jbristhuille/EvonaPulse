@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-06 15:35:50                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-20 14:26:27                              *
+ * @LastEditDate          : 2025-06-20 14:59:38                              *
  ****************************************************************************/
 
 /* SUMMARY
@@ -12,6 +12,7 @@
   * getAll - Get all projects
   * getById - Get project by id
   * create - Create a new project
+  * delete - Delete a project by id
 */
 
 /* Imports */
@@ -76,6 +77,22 @@ export class ProjectService {
     const token = this.authService.getToken();
 
     return this.httpClient.post<IProject>(`${env.API_URL}/api/projects`, {name}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+  /***/
+
+  /**
+  * delete - Delete a project by id
+  * @param id - ID of the project to delete
+  * @return - Request observable
+  */
+  public delete(id: string): Observable<void> {
+    const token = this.authService.getToken();
+
+    return this.httpClient.delete<void>(`${env.API_URL}/api/projects/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
