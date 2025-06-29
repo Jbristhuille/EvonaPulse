@@ -93,9 +93,9 @@ export class ProjectDashboardView implements OnInit {
   */
   public openProjectRemoveModal(): void {
     this.modal = this.modalService.create({
-      nzTitle: 'Create New Project',
+      nzTitle: 'Confirm Project Deletion',
       nzContent: "Are you sure you want to remove this project? This action cannot be undone.",
-      nzOkText: 'Save',
+      nzOkText: 'Delete',
       nzOnOk: this.handleProjectDelete.bind(this)
     });
   }
