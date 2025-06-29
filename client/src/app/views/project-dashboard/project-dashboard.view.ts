@@ -2,16 +2,19 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-20 14:36:53                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-29 13:06:25                              *
+ * @LastEditDate          : 2025-06-29 15:48:48                              *
  ****************************************************************************/
 
 /* SUMMARY
   * Imports
   * Services
+  * Components
   * loadMetrics - Load metrics for the project
   * loadProject - Load project details by ID
   * handleProjectDelete - Handle project deletion
   * openProjectRemoveModal - Manage project removal modal
+  * handleProjectCreateMetric - Handle project metric creation
+  * openCreateMetricModal - Open modal to create a new metric
 */
 
 /* Imports */
@@ -31,6 +34,10 @@ import { ProjectService } from '../../services/data/project/project.service';
 import { IProject } from '../../interfaces/projects';
 import { MetricService } from '../../services/data/metric/metric.service';
 import { IMetric } from '../../interfaces/metrics';
+/***/
+
+/* Components */
+import { CreateMetricComponent } from '../../components/modals/create-metric/create-metric.component';
 /***/
 
 @Component({
@@ -143,6 +150,29 @@ export class ProjectDashboardView implements OnInit {
       nzContent: "Are you sure you want to remove this project? This action cannot be undone.",
       nzOkText: 'Delete',
       nzOnOk: this.handleProjectDelete.bind(this)
+    });
+  }
+  /***/
+
+  /**
+  * handleProjectCreateMetric - Handle project metric creation
+  * @returns boolean - Returns true if the metric was successfully created, false otherwise
+  */
+  public handleProjectCreateMetric(): boolean {
+    this.modal?.updateConfig({nzOkLoading: true});
+    return false; // Prevent default modal behavior
+  }
+
+  /**
+  * openCreateMetricModal - Open modal to create a new metric
+  */
+  public openCreateMetricModal(): void {
+    this.modal = this.modalService.create({
+      nzTitle: 'Create New Metric',
+      nzContent: CreateMetricComponent,
+      nzOkText: 'Create',
+      nzOnOk: this.handleProjectCreateMetric.bind(this),
+      nzCancelText: 'Cancel'
     });
   }
   /***/

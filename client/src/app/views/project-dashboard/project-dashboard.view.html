@@ -2,7 +2,7 @@
 * @Author                : Jbristhuille<jbristhuille@gmail.com>
 * @CreatedDate           : 2025-06-20 14:40:00
 * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
-* @LastEditDate          : 2025-06-29 13:08:30
+* @LastEditDate          : 2025-06-29 15:45:46
 -->
 
 <div class="project-dashboard">
@@ -14,7 +14,8 @@
         <button nz-button nzType="primary"
                 nzSize="small"
                 nz-popover
-                nzPopoverContent="Create new metric">
+                nzPopoverContent="Create new metric"
+                (click)="openCreateMetricModal()">
           <span nz-icon nzType="sliders" nzTheme="outline"></span>
         </button>
 

@@ -1,0 +1,11 @@
+.create-metric-form-componnent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

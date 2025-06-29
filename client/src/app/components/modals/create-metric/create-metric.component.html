@@ -1,0 +1,27 @@
+<!--
+* @Author                : Jbristhuille<jbristhuille@gmail.com>
+* @CreatedDate           : 2025-06-29 15:51:00
+* @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
+* @LastEditDate          : 2025-06-29 16:02:11
+-->
+
+<div class="create-metric-form-componnent">
+  <div class="form-item">
+    <label for="label">Label</label>
+    <input type="text" id="label" nz-input placeholder="ex: Temperature" [(ngModel)]="label"/>
+  </div>
+
+  <div class="form-item">
+    <label for="name">Name</label>
+    <input type="text" id="name" nz-input placeholder="ex: temp" [(ngModel)]="name" />
+  </div>
+
+  <div class="form-item">
+    <label for="type">Type</label>
+    <nz-select id="type" nzPlaceHolder="ex: STRING" [(ngModel)]="type">
+      <nz-option  *ngFor="let type of metricTypes"
+                  [nzValue]="type"
+                  [nzLabel]="type"></nz-option>
+    </nz-select>
+  </div>
+</div>
