@@ -80,7 +80,7 @@ export class ProjectDashboardView implements OnInit {
         error: (error) => {
           console.error('Error deleting project:', error);
           this.message.error('Failed to delete project. Please try again later.');
-          this.modal?.updateConfig({nzOkLoading: true});
+          this.modal?.updateConfig({nzOkLoading: false});
         }
       });
     }
