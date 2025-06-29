@@ -1,0 +1,27 @@
+<!--
+* @Author                : Jbristhuille<jbristhuille@gmail.com>
+* @CreatedDate           : 2025-06-20 14:40:00
+* @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
+* @LastEditDate          : 2025-06-20 14:54:44
+-->
+
+<div class="project-dashboard">
+  <ng-container *ngIf="project; else loading">
+    <div class="project-header">
+      <h2>{{project.name}}</h2>
+
+      <button nz-button nzType="primary"
+              nzSize="small"
+              nzDanger
+              (click)="openProjectRemoveModal()">
+        <span nz-icon nzType="delete" nzTheme="outline"></span>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="loading-container">
+      <nz-spin></nz-spin>
+    </div>
+  </ng-template>
+</div>

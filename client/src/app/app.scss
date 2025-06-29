@@ -2,12 +2,12 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-03 17:24:49                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-06 17:06:59                              *
+ * @LastEditDate          : 2025-06-10 14:12:46                              *
  ****************************************************************************/
 
 #app {
   display: grid;
-  grid-template-columns: 350px 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   width: 100vw;
   height: 100vh;

@@ -2,7 +2,7 @@
 * @Author                : Jbristhuille<jbristhuille@gmail.com>
 * @CreatedDate           : 2025-06-06 15:49:00
 * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
-* @LastEditDate          : 2025-06-06 16:16:25
+* @LastEditDate          : 2025-06-20 14:49:01
 -->
 
 <div class="sidebar-component">
@@ -10,8 +10,19 @@
     <li nz-submenu nzTitle="Projects" nzIcon="project" nzOpen>
       <ul>
         <ng-container *ngIf="projects; else loading">
-          <li *ngFor="let project of projects" nz-menu-item>{{project.name}}</li>
+            <li *ngFor="let project of projects"
+                nz-menu-item
+                [nzSelected]="isActive(project.id)">
+              <a [routerLink]="['/projects', project.id]">{{project.name}}</a>
+            </li>
         </ng-container>
+
+        <li nz-menu-item>
+          <button nz-button nzType="primary" (click)="openProjectModal()">
+            <nz-icon nzType="plus" nzTheme="outline"/>
+            New project
+          </button>
+        </li>
       </ul>
     </li>
 
