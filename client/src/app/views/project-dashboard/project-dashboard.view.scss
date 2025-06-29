@@ -2,7 +2,7 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-20 14:43:52                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-20 14:53:59                              *
+ * @LastEditDate          : 2025-06-29 13:04:46                              *
  ****************************************************************************/
 
 .project-dashboard {
@@ -13,6 +13,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .button-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
   }
 
   .loading-container {

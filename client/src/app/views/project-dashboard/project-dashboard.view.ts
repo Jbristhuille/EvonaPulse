@@ -2,12 +2,13 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-20 14:36:53                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-29 12:59:54                              *
+ * @LastEditDate          : 2025-06-29 13:06:25                              *
  ****************************************************************************/
 
 /* SUMMARY
   * Imports
   * Services
+  * loadMetrics - Load metrics for the project
   * loadProject - Load project details by ID
   * handleProjectDelete - Handle project deletion
   * openProjectRemoveModal - Manage project removal modal
@@ -22,6 +23,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 /***/
 
 /* Services */
@@ -38,7 +40,8 @@ import { IMetric } from '../../interfaces/metrics';
     CommonModule,
     NzButtonModule,
     NzIconModule,
-    NzModalModule
+    NzModalModule,
+    NzPopoverModule
   ],
   templateUrl: './project-dashboard.view.html',
   styleUrl: './project-dashboard.view.scss'
