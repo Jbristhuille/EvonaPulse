@@ -160,6 +160,32 @@ export class ProjectDashboardView implements OnInit {
   */
   public handleProjectCreateMetric(): boolean {
     this.modal?.updateConfig({nzOkLoading: true});
+    let component = this.modal?.getContentComponent() as CreateMetricComponent;
+
+    if (component.label && component.type && component.name) {
+      this.metricService.createMetric(
+        this.project?.id || '',
+        component.label,
+        component.type,
+        component.name.toLowerCase().trim())
+        .subscribe({
+        next: (metric: IMetric) => {
+          this.message.success('Metric created successfully.');
+          this.metrics?.push(metric);
+          this.modal?.close();
+          this.modal?.updateConfig({nzOkLoading: false});
+        },
+        error: (error) => {
+          console.error('Error creating metric:', error);
+          this.message.error('Failed to create metric. Please try again later.');
+          this.modal?.updateConfig({nzOkLoading: false});
+        }
+      });
+    } else {
+      this.message.error('Please fill in all fields to create a metric.');
+      this.modal?.updateConfig({nzOkLoading: false});
+    }
+
     return false; // Prevent default modal behavior
   }
 

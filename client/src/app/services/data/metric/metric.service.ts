@@ -10,6 +10,7 @@
   * Services
   * Interfaces
   * getMetrics - Fetches metrics for a project
+  * createMetric - Creates a new metric for a project
 */
 
 /* Imports */
@@ -45,6 +46,29 @@ export class MetricService {
     const token = this.authService.getToken();
 
     return this.httpClient.get<IMetric[]>(`${env.API_URL}/api/projects/${projectId}/metrics`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+  /***/
+
+  /**
+  * createMetric - Creates a new metric for a project
+  * @param projectId - The ID of the project to create the metric for
+  * @param label - The label of the metric
+  * @param type - The type of the metric
+  * @param name - The name of the metric
+  * @returns An observable containing the created metric data
+  */
+  public createMetric(projectId: string, label: string, type: string, name: string): Observable<IMetric> {
+    const token = this.authService.getToken();
+
+    return this.httpClient.post<IMetric>(`${env.API_URL}/api/projects/${projectId}/metrics`, {
+      label,
+      type,
+      name
+    }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
