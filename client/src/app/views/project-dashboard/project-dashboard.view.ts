@@ -2,12 +2,14 @@
  * @Author                : Jbristhuille<jbristhuille@gmail.com>             *
  * @CreatedDate           : 2025-06-20 14:36:53                              *
  * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>             *
- * @LastEditDate          : 2025-06-20 16:10:01                              *
+ * @LastEditDate          : 2025-06-29 12:59:54                              *
  ****************************************************************************/
 
 /* SUMMARY
   * Imports
   * Services
+  * loadProject - Load project details by ID
+  * handleProjectDelete - Handle project deletion
   * openProjectRemoveModal - Manage project removal modal
 */
 
@@ -25,6 +27,8 @@ import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 /* Services */
 import { ProjectService } from '../../services/data/project/project.service';
 import { IProject } from '../../interfaces/projects';
+import { MetricService } from '../../services/data/metric/metric.service';
+import { IMetric } from '../../interfaces/metrics';
 /***/
 
 @Component({
@@ -41,27 +45,66 @@ import { IProject } from '../../interfaces/projects';
 })
 export class ProjectDashboardView implements OnInit {
   public project: IProject | undefined;
+  public metrics: IMetric[] | undefined;
   public modal: NzModalRef | undefined;
 
   constructor(private route: ActivatedRoute,
               private projectService: ProjectService,
               private message: NzMessageService,
-              private modalService: NzModalService) {
+              private modalService: NzModalService,
+              private metricService: MetricService) {
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.projectService.getById(params.get('id') || '').subscribe({
-        next: (project: IProject) => {
-          this.project = project;
+      this.loadProject(params.get('id') || '')
+        .then(() => {
+          this.loadMetrics(this.project?.id || '')
+        });
+    });
+  }
+
+  /**
+  * loadMetrics - Load metrics for the project
+  * @param id - The ID of the project to load metrics for
+  */
+  private loadMetrics(id: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.metricService.getMetrics(id).subscribe({
+        next: (metrics) => {
+          this.metrics = metrics;
+          return resolve();
         },
         error: (error) => {
-          console.error('Error fetching project:', error);
-          this.message.error('Failed to load project details. Please try again later.');
+          console.error('Error fetching metrics:', error);
+          this.message.error('Failed to load project metrics. Please try again later.');
+          return reject(error);
         }
       });
     });
   }
+  /***/
+
+  /**
+  * loadProject - Load project details by ID
+  * @param id - The ID of the project to load
+  */
+  private loadProject(id: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.projectService.getById(id).subscribe({
+        next: (project: IProject) => {
+          this.project = project;
+          return resolve();
+        },
+        error: (error) => {
+          console.error('Error fetching project:', error);
+          this.message.error('Failed to load project details. Please try again later.');
+          return reject(error);
+        }
+      });
+    });
+  }
+  /***/
 
   /**
   * handleProjectDelete - Handle project deletion

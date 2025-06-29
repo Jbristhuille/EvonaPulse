@@ -2,11 +2,11 @@
 * @Author                : Jbristhuille<jbristhuille@gmail.com>
 * @CreatedDate           : 2025-06-20 14:40:00
 * @LastEditors           : Jbristhuille<jbristhuille@gmail.com>
-* @LastEditDate          : 2025-06-20 14:54:44
+* @LastEditDate          : 2025-06-29 13:01:00
 -->
 
 <div class="project-dashboard">
-  <ng-container *ngIf="project; else loading">
+  <ng-container *ngIf="project && metrics; else loading">
     <div class="project-header">
       <h2>{{project.name}}</h2>
 
@@ -16,6 +16,10 @@
               (click)="openProjectRemoveModal()">
         <span nz-icon nzType="delete" nzTheme="outline"></span>
       </button>
+    </div>
+
+    <div class="project-content">
+      <div *ngFor="let metric of metrics">{{metric.name}}</div>  <!-- TMP -->
     </div>
   </ng-container>
 
